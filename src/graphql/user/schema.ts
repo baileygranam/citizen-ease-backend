@@ -33,6 +33,7 @@ export const schema = gql`
 
   type Mutation {
     createUser(data: CreateUserInput!): User
+    updateUser(id: String!, data: UpdateUserInput!): User
   }
 
   input CreateUserInput {
@@ -43,5 +44,13 @@ export const schema = gql`
     password: String!
     role: Role!
     businessId: String!
+  }
+
+  input UpdateUserInput {
+    firstName: String
+    lastName: String
+    email: String
+    phoneNumber: String
+    password: String
   }
 `;

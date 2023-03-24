@@ -3,6 +3,7 @@ import { ApolloContext } from '../../types';
 
 import {
   MutationCreateUserArgs,
+  MutationUpdateUserArgs,
   QueryGetUserArgs,
   Resolvers
 } from '../__generated__/graphql';
@@ -19,11 +20,18 @@ const createUser = async (
   { businessId }: ApolloContext
 ) => User.createUser(businessId, data);
 
+const updateUser = async (
+  _parent: unknown,
+  { id, data }: MutationUpdateUserArgs,
+  { businessId }: ApolloContext
+) => User.updateUser(businessId, id, data);
+
 export const resolvers: Resolvers = {
   Query: {
     getUser
   },
   Mutation: {
-    createUser
+    createUser,
+    updateUser
   }
 };

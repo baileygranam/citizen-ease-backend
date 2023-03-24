@@ -11,6 +11,7 @@ const config: CodegenConfig = {
         mappers: {
           User: '@prisma/client/index.d#User as PrismaUser'
         },
+        inputMaybeValue: 'undefined | T',
         useIndexSignature: true
       }
     }
