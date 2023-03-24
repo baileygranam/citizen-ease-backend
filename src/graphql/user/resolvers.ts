@@ -1,7 +1,7 @@
 import { getUserById } from '../../models/user';
 import { ApolloContext } from '../../types';
 
-import { QueryGetUserArgs, Resolvers } from '../generated/graphql';
+import { QueryGetUserArgs, Resolvers } from '../__generated__/graphql';
 
 const getUser = async (
   _parent: unknown,

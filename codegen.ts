@@ -4,7 +4,7 @@ const config: CodegenConfig = {
   overwrite: true,
   schema: 'http://localhost:4000/api',
   generates: {
-    'src/graphql/generated/graphql.ts': {
+    'src/graphql/__generated__/graphql.ts': {
       plugins: ['typescript', 'typescript-resolvers'],
       config: {
         defaultMapper: 'Partial<{T}>',

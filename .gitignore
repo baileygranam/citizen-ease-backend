@@ -1,5 +1,5 @@
 node_modules
-generated
+__generated__
 build
 .env*
 .DS_Store
