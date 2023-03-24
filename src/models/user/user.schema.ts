@@ -5,9 +5,12 @@ import Prisma from '@prisma/client';
 const ajv = new Ajv();
 addFormats(ajv);
 
-type User = Omit<Prisma.User, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt'>;
+export type UserSchema = Omit<
+  Prisma.User,
+  'id' | 'businessId' | 'createdAt' | 'updatedAt' | 'deletedAt'
+>;
 
-const userSchema: JSONSchemaType<User> = {
+const userSchema: JSONSchemaType<UserSchema> = {
   type: 'object',
   properties: {
     firstName: { type: 'string', minLength: 1 },
@@ -15,8 +18,7 @@ const userSchema: JSONSchemaType<User> = {
     email: { type: 'string', format: 'email' },
     phoneNumber: { type: 'string', minLength: 1 },
     password: { type: 'string', minLength: 6 },
-    role: { type: 'string', enum: Object.values(Prisma.Role) },
-    businessId: { type: 'string', format: 'uuid' }
+    role: { type: 'string', enum: Object.values(Prisma.Role) }
   },
   required: [],
   additionalProperties: false
@@ -30,9 +32,11 @@ const createUserSchema = {
     'email',
     'phoneNumber',
     'password',
-    'role',
-    'businessId'
+    'role'
   ]
 };
 
+const updateUserSchema = userSchema;
+
 export const validateCreateUser = ajv.compile(createUserSchema);
+export const validateUpdateUser = ajv.compile(updateUserSchema);

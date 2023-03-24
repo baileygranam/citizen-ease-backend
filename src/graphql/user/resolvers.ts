@@ -1,4 +1,4 @@
-import * as UserModel from '../../models/user';
+import * as User from '../../models/user';
 import { ApolloContext } from '../../types';
 
 import {
@@ -11,13 +11,13 @@ const getUser = async (
   _parent: unknown,
   { id }: QueryGetUserArgs,
   { businessId }: ApolloContext
-) => UserModel.getUserById(businessId, id);
+) => User.getUserById(businessId, id);
 
 const createUser = async (
   _parent: unknown,
   { data }: MutationCreateUserArgs,
   { businessId }: ApolloContext
-) => UserModel.createUser(businessId, data);
+) => User.createUser(businessId, data);
 
 export const resolvers: Resolvers = {
   Query: {
