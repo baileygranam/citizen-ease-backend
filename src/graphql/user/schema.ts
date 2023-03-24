@@ -32,7 +32,7 @@ export const schema = gql`
   }
 
   type Mutation {
-    createUser(data: CreateUserInput): User
+    createUser(data: CreateUserInput!): User
   }
 
   input CreateUserInput {
