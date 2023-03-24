@@ -57,7 +57,6 @@ model Case {
   notes      Note[]
   timeSheets Timesheet[]
 
-  @@unique([id, businessId])
   @@map("cases")
 }
 
@@ -94,7 +93,6 @@ model Client {
   entries            Entries[]
   immigrationHistory ImmigrationHistory[]
 
-  @@unique([id, businessId])
   @@map("clients")
 }
 
@@ -116,7 +114,6 @@ model CriminalHistory {
   client   Client @relation(fields: [clientId], references: [id])
   clientId String
 
-  @@unique([id, clientId])
   @@map("criminal_history")
 }
 
@@ -155,7 +152,6 @@ model Entries {
   client   Client @relation(fields: [clientId], references: [id])
   clientId String
 
-  @@unique([id, clientId])
   @@map("entries")
 }
 
@@ -175,7 +171,6 @@ model ImmigrationHistory {
   applicationType   ApplicationType @relation(fields: [applicationTypeId], references: [id])
   applicationTypeId String
 
-  @@unique([id, clientId])
   @@map("immigration_history")
 }
 
@@ -192,7 +187,6 @@ model Note {
   case   Case   @relation(fields: [caseId], references: [id])
   caseId String
 
-  @@unique([id, caseId])
   @@map("notes")
 }
 
@@ -212,7 +206,6 @@ model Timesheet {
   case   Case   @relation(fields: [caseId], references: [id])
   caseId String
 
-  @@unique([id, caseId])
   @@map("timesheets")
 }
 
@@ -235,7 +228,6 @@ model User {
   notes      Note[]
   timeSheets Timesheet[]
 
-  @@unique([id, businessId])
   @@map("users")
 }
 
@@ -251,7 +243,6 @@ model ReferralSource {
 
   clients Client[]
 
-  @@unique([id, businessId])
   @@map("referral_sources")
 }
 
