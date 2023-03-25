@@ -1,52 +1,16 @@
-import Prisma, { PrismaClient } from '@prisma/client';
 import { faker } from '@faker-js/faker';
 import bcrypt from 'bcrypt';
 import * as User from './';
 import { UserSchema } from './user.schema';
 
-const prisma = new PrismaClient();
-
-type State = {
-  business: Prisma.Business;
-  user: Prisma.User;
-};
+import { setup, State } from '../../__test__/setup';
+import * as Factory from '../../__test__/factory';
 
 describe('User Model', () => {
   let state: State;
 
-  const generateUser = (data?: Partial<UserSchema>) => ({
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
-    email: faker.internet.email(),
-    phoneNumber: faker.phone.number('+1##########'),
-    password: faker.internet.password(10),
-    role: Prisma.Role.CLIENT,
-    ...data
-  });
-
   beforeAll(async () => {
-    await prisma.$connect();
-  });
-
-  afterAll(async () => {
-    await prisma.$disconnect();
-  });
-
-  beforeEach(async () => {
-    const business = await prisma.business.create({
-      data: { name: faker.company.name() }
-    });
-
-    const user = await prisma.user.create({
-      data: { businessId: business.id, ...generateUser() }
-    });
-
-    state = { business, user };
-  });
-
-  afterEach(async () => {
-    await prisma.user.deleteMany();
-    await prisma.business.deleteMany();
+    state = await setup();
   });
 
   describe('getUserById', () => {
@@ -104,7 +68,7 @@ describe('User Model', () => {
 
   describe('createUser', () => {
     test('should create a new user with valid data', async () => {
-      const data = generateUser();
+      const data = Factory.generateUserData();
 
       const result = await User.createUser(state.business.id, data);
 
@@ -124,7 +88,7 @@ describe('User Model', () => {
     });
 
     test('should throw an error if a user already exists with the given email', async () => {
-      const data = generateUser({ email: state.user.email });
+      const data = Factory.generateUserData({ email: state.user.email });
       const result = User.createUser(state.business.id, data);
 
       await expect(result).rejects.toThrowError(
@@ -133,7 +97,7 @@ describe('User Model', () => {
     });
 
     test('should throw an error if email is invalid', async () => {
-      const data = generateUser({ email: 'fake-email' });
+      const data = Factory.generateUserData({ email: 'fake-email' });
       const result = User.createUser(state.business.id, data);
 
       await expect(result).rejects.toThrowError(
@@ -142,7 +106,7 @@ describe('User Model', () => {
     });
 
     test('should throw an error if password is too short', async () => {
-      const data = generateUser({ password: '1234' });
+      const data = Factory.generateUserData({ password: '1234' });
       const result = User.createUser(state.business.id, data);
 
       await expect(result).rejects.toThrowError(
@@ -151,7 +115,7 @@ describe('User Model', () => {
     });
 
     test('should throw an error if firstName is empty', async () => {
-      const data = generateUser({ firstName: '' });
+      const data = Factory.generateUserData({ firstName: '' });
       const result = User.createUser(state.business.id, data);
 
       await expect(result).rejects.toThrowError(
@@ -160,7 +124,7 @@ describe('User Model', () => {
     });
 
     test('should throw an error if lastName is empty', async () => {
-      const data = generateUser({ lastName: '' });
+      const data = Factory.generateUserData({ lastName: '' });
       const result = User.createUser(state.business.id, data);
 
       await expect(result).rejects.toThrowError(
@@ -169,7 +133,7 @@ describe('User Model', () => {
     });
 
     test('should throw an error if role is empty', async () => {
-      const data = generateUser({ role: undefined });
+      const data = Factory.generateUserData({ role: undefined });
       const result = User.createUser(state.business.id, data);
 
       await expect(result).rejects.toThrowError(
@@ -180,7 +144,7 @@ describe('User Model', () => {
 
   describe('updateUser', () => {
     test('should update a user with valid data', async () => {
-      const data = generateUser();
+      const data = Factory.generateUserData();
 
       const result = await User.updateUser(
         state.business.id,
@@ -204,9 +168,7 @@ describe('User Model', () => {
     });
 
     test('should throw an error if a user already exists with the given email', async () => {
-      const otherUser = await prisma.user.create({
-        data: { businessId: state.business.id, ...generateUser() }
-      });
+      const otherUser = await Factory.createUser(state);
 
       const data = { email: otherUser.email };
       const result = User.updateUser(state.business.id, state.user.id, data);
@@ -217,7 +179,7 @@ describe('User Model', () => {
     });
 
     test('should throw an error if user does not exist', async () => {
-      const data = generateUser();
+      const data = Factory.generateUserData();
       const result = User.updateUser(
         state.business.id,
         faker.datatype.uuid(),
