@@ -1,12 +1,12 @@
 import { gql } from 'apollo-server-express';
 
-export default gql`
+export const schema = gql`
   type Business {
     id: String!
     name: String!
-    createdAt: DateTime!
-    updatedAt: DateTime!
-    deletedAt: DateTime
+    createdAt: String!
+    updatedAt: String!
+    deletedAt: String
   }
 
   type Query {
@@ -14,7 +14,7 @@ export default gql`
   }
 
   type Mutation {
-    createBusiness(data: CreateBusinessInput): Business
+    createBusiness(data: CreateBusinessInput!): Business
   }
 
   input CreateBusinessInput {

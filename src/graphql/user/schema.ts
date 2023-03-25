@@ -14,14 +14,6 @@ export const schema = gql`
     deletedAt: String
   }
 
-  type Business {
-    id: String!
-    name: String!
-    createdAt: String!
-    updatedAt: String!
-    deletedAt: String
-  }
-
   enum Role {
     ADMIN
     CLIENT

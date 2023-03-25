@@ -1,12 +1,23 @@
-import { Resolvers } from '../__generated__/graphql';
+import {
+  Resolvers,
+  QueryGetBusinessArgs,
+  MutationCreateBusinessArgs
+} from '../__generated__/graphql';
+import * as Business from '../../models/business';
 
-const resolvers: Resolvers = {
+const getBusiness = async (_parent: unknown, { id }: QueryGetBusinessArgs) =>
+  Business.getBusinessById(id);
+
+const createBusiness = async (
+  _parent: unknown,
+  { data }: MutationCreateBusinessArgs
+) => Business.createBusiness(data);
+
+export const resolvers: Resolvers = {
   Query: {
-    getBusiness: {}
+    getBusiness
   },
   Mutation: {
-    createBusiness: {}
+    createBusiness
   }
 };
-
-export default resolvers;
