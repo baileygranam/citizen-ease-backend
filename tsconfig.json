@@ -16,8 +16,14 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "lib": ["ESNext", "DOM"],
-    "types": ["node", "jest"]
+    "types": ["node", "jest"],
+    "baseUrl": ".",
+    "paths": {
+      "@models/*": ["src/models/*"],
+      "@graphql/*": ["src/graphql/*"],
+      "@test/*": ["src/__test__/*"],
+    },
   },
   "exclude": ["node_modules", "build"],
-  "include": ["src/*"]
+  "include": ["src"]
 }

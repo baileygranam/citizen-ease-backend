@@ -1,10 +1,11 @@
-import { Business, User } from '../../models';
+import * as User from '@models/user';
+import * as Business from '@models/business';
 import {
   MutationResolvers,
   QueryResolvers,
   UserResolvers,
   Resolvers
-} from '../__generated__/graphql';
+} from '@graphql/__generated__/graphql';
 
 const getUser: QueryResolvers['getUser'] = async (
   _parent,

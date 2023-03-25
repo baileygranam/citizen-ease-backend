@@ -3,8 +3,8 @@ import bcrypt from 'bcrypt';
 import * as User from './';
 import { UserSchema } from './user.schema';
 
-import { setup, State } from '../../__test__/setup';
-import * as Factory from '../../__test__/factory';
+import { setup, State } from '@test/setup';
+import * as Factory from '@test/factory';
 
 describe('User Model', () => {
   let state: State;

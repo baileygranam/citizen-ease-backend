@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import * as Business from './';
-import { State, setup } from '../../__test__/setup';
-import * as Factory from '../../__test__/factory';
+import { State, setup } from '@test/setup';
+import * as Factory from '@test/factory';
 
 describe('Busines Model', () => {
   let state: State;
