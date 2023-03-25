@@ -35,7 +35,6 @@ export const schema = gql`
     phoneNumber: String!
     password: String!
     role: Role!
-    businessId: String!
   }
 
   input UpdateUserInput {
