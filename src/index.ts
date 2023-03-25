@@ -18,7 +18,7 @@ const startServer = async () => {
       resolvers: await loadFiles('src/graphql/**/resolvers.ts'),
       // TODO: Pass payload from 'authorization' token
       context: async (): Promise<ApolloContext> => ({
-        businessId: '',
+        businessId: 'bc6fd3c4-5beb-43f4-904a-e39cb0475c22',
         userId: ''
       })
     });

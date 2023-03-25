@@ -34,6 +34,20 @@ export const getUserById = async <T extends UserOptions>(
   return user as Prisma.UserGetPayload<T>;
 };
 
+export const getUsers = async <T extends UserOptions>(
+  businessId: string,
+  options?: T
+) => {
+  const users = await prisma.user.findMany({
+    where: {
+      businessId
+    },
+    include: options?.include
+  });
+
+  return users as Prisma.UserGetPayload<T>[];
+};
+
 type DoesUserExistInput =
   | {
       id?: undefined;

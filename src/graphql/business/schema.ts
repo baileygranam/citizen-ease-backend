@@ -7,6 +7,8 @@ export const schema = gql`
     createdAt: String!
     updatedAt: String!
     deletedAt: String
+
+    users: [User!]!
   }
 
   type Query {
