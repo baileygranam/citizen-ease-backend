@@ -8,6 +8,7 @@ const config: CodegenConfig = {
       plugins: ['typescript', 'typescript-resolvers'],
       config: {
         defaultMapper: 'Partial<{T}>',
+        contextType: 'src/types/index.ts#ApolloContext',
         mappers: {
           Business: '@prisma/client/index.d#Business as PrismaBusiness',
           User: '@prisma/client/index.d#User as PrismaUser'

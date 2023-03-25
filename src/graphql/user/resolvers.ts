@@ -1,30 +1,33 @@
 import * as User from '../../models/user';
-import { ApolloContext } from '../../types';
+import * as Business from '../../models/business';
 
 import {
-  MutationCreateUserArgs,
-  MutationUpdateUserArgs,
-  QueryGetUserArgs,
+  MutationResolvers,
+  QueryResolvers,
+  UserResolvers,
   Resolvers
 } from '../__generated__/graphql';
 
-const getUser = async (
-  _parent: unknown,
-  { id }: QueryGetUserArgs,
-  { businessId }: ApolloContext
+const getUser: QueryResolvers['getUser'] = async (
+  _parent,
+  { id },
+  { businessId }
 ) => User.getUserById(businessId, id);
 
-const createUser = async (
-  _parent: unknown,
-  { data }: MutationCreateUserArgs,
-  { businessId }: ApolloContext
+const createUser: MutationResolvers['createUser'] = async (
+  _parent,
+  { data },
+  { businessId }
 ) => User.createUser(businessId, data);
 
-const updateUser = async (
-  _parent: unknown,
-  { id, data }: MutationUpdateUserArgs,
-  { businessId }: ApolloContext
+const updateUser: MutationResolvers['updateUser'] = async (
+  _parent,
+  { id, data },
+  { businessId }
 ) => User.updateUser(businessId, id, data);
+
+const business: UserResolvers['business'] = async ({ businessId }) =>
+  Business.getBusinessById(businessId);
 
 export const resolvers: Resolvers = {
   Query: {
@@ -33,5 +36,8 @@ export const resolvers: Resolvers = {
   Mutation: {
     createUser,
     updateUser
+  },
+  User: {
+    business: business
   }
 };
