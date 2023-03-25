@@ -1,6 +1,4 @@
-import * as User from '../../models/user';
-import * as Business from '../../models/business';
-
+import { Business, User } from '../../models';
 import {
   MutationResolvers,
   QueryResolvers,
