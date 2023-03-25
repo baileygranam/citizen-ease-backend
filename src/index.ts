@@ -2,8 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { createServer } from 'http';
 import { ApolloServer } from 'apollo-server-express';
-import { resolvers } from './graphql/user/resolvers';
-import { schema } from './graphql/user/schema';
+import { loadFiles } from '@graphql-tools/load-files';
 import { ApolloContext } from './types';
 
 dotenv.config();
@@ -15,8 +14,8 @@ const startServer = async () => {
     const app = express();
     const httpServer = createServer(app);
     const apolloServer = new ApolloServer({
-      typeDefs: schema,
-      resolvers,
+      typeDefs: await loadFiles('src/graphql/**/schema.ts'),
+      resolvers: await loadFiles('src/graphql/**/resolvers.ts'),
       // TODO: Pass payload from 'authorization' token
       context: async (): Promise<ApolloContext> => ({
         businessId: '',

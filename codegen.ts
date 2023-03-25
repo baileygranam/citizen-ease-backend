@@ -9,6 +9,7 @@ const config: CodegenConfig = {
       config: {
         defaultMapper: 'Partial<{T}>',
         mappers: {
+          Business: '@prisma/client/index.d#Business as PrismaBusiness',
           User: '@prisma/client/index.d#User as PrismaUser'
         },
         inputMaybeValue: 'undefined | T',
