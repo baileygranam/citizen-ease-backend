@@ -142,6 +142,27 @@ describe('User Model', () => {
     });
   });
 
+  describe('getUsers', () => {
+    test('should return a list of users with given options', async () => {
+      const options = { include: { business: true } };
+      const users = await User.getUsers(state.business.id, options);
+
+      expect(users.length).toBeGreaterThanOrEqual(1);
+      expect(users[0]).toMatchObject(
+        expect.objectContaining({
+          ...state.user,
+          business: state.business
+        })
+      );
+    });
+
+    test('should return an empty list if no users are found', async () => {
+      const users = await User.getUsers(faker.datatype.uuid());
+
+      expect(users).toHaveLength(0);
+    });
+  });
+
   describe('updateUser', () => {
     test('should update a user with valid data', async () => {
       const data = Factory.generateUserData();
