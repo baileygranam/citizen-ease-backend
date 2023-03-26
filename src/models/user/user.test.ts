@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker';
 import bcrypt from 'bcrypt';
 import * as User from './';
-import { UserSchema } from './user.schema';
 
 import { setup, State } from '@test/setup';
 import * as Factory from '@test/factory';
@@ -131,15 +130,6 @@ describe('User Model', () => {
         'Error creating user, data/lastName must NOT have fewer than 1 characters'
       );
     });
-
-    test('should throw an error if role is empty', async () => {
-      const data = Factory.generateUserData({ role: undefined });
-      const result = User.createUser(state.business.id, data);
-
-      await expect(result).rejects.toThrowError(
-        `Error creating user, data must have required property 'role'`
-      );
-    });
   });
 
   describe('getUsers', () => {
@@ -243,15 +233,6 @@ describe('User Model', () => {
 
       await expect(result).rejects.toThrowError(
         'Error updating user, data/lastName must NOT have fewer than 1 characters'
-      );
-    });
-
-    test('should throw an error if role is invalid', async () => {
-      const data = { role: 'INVALID_ROLE' } as unknown as UserSchema;
-      const result = User.updateUser(state.business.id, state.user.id, data);
-
-      await expect(result).rejects.toThrowError(
-        `Error updating user, data/role must be equal to one of the allowed values`
       );
     });
   });

@@ -1,4 +1,4 @@
-import { Prisma, Role } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { prisma, State } from './setup';
 import { faker } from '@faker-js/faker';
 
@@ -28,7 +28,6 @@ export const generateUserData = (
     email: faker.internet.email(),
     phoneNumber: faker.phone.number('+1##########'),
     password: faker.internet.password(10),
-    role: Role.CLIENT,
     ...data
   };
 };

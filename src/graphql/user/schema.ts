@@ -7,16 +7,10 @@ export const schema = gql`
     lastName: String
     email: String!
     phoneNumber: String!
-    role: Role!
     business: Business!
     createdAt: String!
     updatedAt: String!
     deletedAt: String
-  }
-
-  enum Role {
-    ADMIN
-    CLIENT
   }
 
   type Query {
@@ -34,7 +28,6 @@ export const schema = gql`
     email: String!
     phoneNumber: String!
     password: String!
-    role: Role!
   }
 
   input UpdateUserInput {

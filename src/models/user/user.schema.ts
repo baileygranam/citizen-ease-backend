@@ -17,8 +17,7 @@ const userSchema: JSONSchemaType<UserSchema> = {
     lastName: { type: 'string', minLength: 1 },
     email: { type: 'string', format: 'email' },
     phoneNumber: { type: 'string', minLength: 1 },
-    password: { type: 'string', minLength: 6 },
-    role: { type: 'string', enum: Object.values(Prisma.Role) }
+    password: { type: 'string', minLength: 6 }
   },
   required: [],
   additionalProperties: false
@@ -26,14 +25,7 @@ const userSchema: JSONSchemaType<UserSchema> = {
 
 const createUserSchema = {
   ...userSchema,
-  required: [
-    'firstName',
-    'lastName',
-    'email',
-    'phoneNumber',
-    'password',
-    'role'
-  ]
+  required: ['firstName', 'lastName', 'email', 'phoneNumber', 'password']
 };
 
 const updateUserSchema = userSchema;

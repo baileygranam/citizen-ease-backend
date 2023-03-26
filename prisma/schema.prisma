@@ -216,7 +216,6 @@ model User {
   email       String    @unique
   phoneNumber String    @unique
   password    String
-  role        Role
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   deletedAt   DateTime?
@@ -299,9 +298,4 @@ enum MartialStatus {
   DOMESTIC_PARTNERSHIP
   CIVIL_UNION
   ANNULLED
-}
-
-enum Role {
-  ADMIN
-  CLIENT
 }
