@@ -13,6 +13,12 @@ const getUser: QueryResolvers['getUser'] = async (
   { businessId }
 ) => User.getUserById(businessId, id);
 
+const getUsers: QueryResolvers['getUsers'] = async (
+  _parent,
+  _args,
+  { businessId }
+) => User.getUsers(businessId);
+
 const createUser: MutationResolvers['createUser'] = async (
   _parent,
   { data },
@@ -28,15 +34,20 @@ const updateUser: MutationResolvers['updateUser'] = async (
 const business: UserResolvers['business'] = async ({ businessId }) =>
   Business.getBusinessById(businessId);
 
+const isActive: UserResolvers['isActive'] = async ({ deletedAt }) =>
+  deletedAt === null;
+
 export const resolvers: Resolvers = {
   Query: {
-    getUser
+    getUser,
+    getUsers
   },
   Mutation: {
     createUser,
     updateUser
   },
   User: {
-    business: business
+    business,
+    isActive
   }
 };

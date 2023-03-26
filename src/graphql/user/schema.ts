@@ -8,13 +8,12 @@ export const schema = gql`
     email: String!
     phoneNumber: String!
     business: Business!
-    createdAt: String!
-    updatedAt: String!
-    deletedAt: String
+    isActive: Boolean!
   }
 
   type Query {
     getUser(id: String!): User
+    getUsers: [User!]!
   }
 
   type Mutation {
