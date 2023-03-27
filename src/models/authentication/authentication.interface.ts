@@ -23,8 +23,20 @@ export const isAuthenticationPayload = (
   );
 };
 
+const getJWTSecretForTokenType = (type: TokenType) => {
+  switch (type) {
+    case TokenType.ACCESS:
+      return config.JWT_SECRET;
+    case TokenType.REFRESH:
+      return config.JWT_REFRESH_SECRET;
+    default:
+      return '';
+  }
+};
+
 export const createToken = async (user: User, type: TokenType) => {
   try {
+    const secret = getJWTSecretForTokenType(type);
     const expiration =
       type === TokenType.ACCESS
         ? config.JWT_ACCESS_EXPIRATION_MINUTES
@@ -32,7 +44,7 @@ export const createToken = async (user: User, type: TokenType) => {
 
     const { id: userId, businessId } = user;
 
-    const token = jwt.sign({ userId, businessId }, config.JWT_SECRET, {
+    const token = jwt.sign({ userId, businessId }, secret, {
       expiresIn: `${expiration}m`
     });
 
@@ -71,7 +83,8 @@ export const revokeTokens = async (userId: string) => {
 
 export const isTokenValid = async (_token: string, type: TokenType) => {
   try {
-    const payload = jwt.verify(_token, config.JWT_SECRET);
+    const secret = getJWTSecretForTokenType(type);
+    const payload = jwt.verify(_token, secret);
 
     if (!isAuthenticationPayload(payload)) {
       return false;
@@ -98,8 +111,9 @@ export const isTokenValid = async (_token: string, type: TokenType) => {
   return true;
 };
 
-export const getTokenPayload = (token: string) => {
-  const payload = jwt.verify(token, config.JWT_SECRET);
+export const getTokenPayload = (token: string, type: TokenType) => {
+  const secret = getJWTSecretForTokenType(type);
+  const payload = jwt.verify(token, secret);
 
   if (!isAuthenticationPayload(payload)) {
     throw new Error('Invalid token');

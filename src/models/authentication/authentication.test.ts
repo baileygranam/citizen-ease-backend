@@ -39,7 +39,7 @@ describe('Busines Model', () => {
       expect(token).not.toBe('');
       expect(typeof token).toBe('string');
 
-      const payload = jwt.verify(token, config.JWT_SECRET);
+      const payload = jwt.verify(token, config.JWT_REFRESH_SECRET);
       expect(Authentication.isAuthenticationPayload(payload)).toBe(true);
     });
 
@@ -175,7 +175,7 @@ describe('Busines Model', () => {
       const user = await Factory.createUser(state);
       const token = await Authentication.createToken(user, TokenType.ACCESS);
 
-      const payload = Authentication.getTokenPayload(token);
+      const payload = Authentication.getTokenPayload(token, TokenType.ACCESS);
 
       expect(payload).toMatchObject(
         expect.objectContaining({
@@ -187,9 +187,9 @@ describe('Busines Model', () => {
 
     test(`should throw an error for invalid token`, async () => {
       const token = jwt.sign({ id: '1' }, config.JWT_SECRET);
-      expect(() => Authentication.getTokenPayload(token)).toThrowError(
-        'Invalid token'
-      );
+      expect(() =>
+        Authentication.getTokenPayload(token, TokenType.ACCESS)
+      ).toThrowError('Invalid token');
     });
   });
 });

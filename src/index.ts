@@ -36,7 +36,7 @@ const startServer = async () => {
         );
 
         if (isTokenValid) {
-          return Authentication.getTokenPayload(accessToken);
+          return Authentication.getTokenPayload(accessToken, TokenType.ACCESS);
         }
 
         return { businessId: '', userId: '' };
