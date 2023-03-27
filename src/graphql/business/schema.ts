@@ -2,17 +2,14 @@ import { gql } from 'apollo-server-express';
 
 export const schema = gql`
   type Business {
-    id: String!
+    id: UUID!
     name: String!
-    createdAt: String!
-    updatedAt: String!
-    deletedAt: String
 
     users: [User!]!
   }
 
   type Query {
-    getBusiness(id: String!): Business
+    getBusiness(id: UUID!): Business
   }
 
   type Mutation {

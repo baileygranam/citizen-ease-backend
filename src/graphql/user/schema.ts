@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express';
 
 export const schema = gql`
   type User {
-    id: String!
+    id: UUID!
     firstName: String!
     lastName: String
     email: String!
@@ -12,13 +12,13 @@ export const schema = gql`
   }
 
   type Query {
-    getUser(id: String!): User
+    getUser(id: UUID!): User
     getUsers: [User!]!
   }
 
   type Mutation {
     createUser(data: CreateUserInput!): User
-    updateUser(id: String!, data: UpdateUserInput!): User
+    updateUser(id: UUID!, data: UpdateUserInput!): User
   }
 
   input CreateUserInput {
