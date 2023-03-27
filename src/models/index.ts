@@ -1,4 +1,5 @@
+import * as Authentication from './authentication';
 import * as Business from './business';
 import * as User from './user';
 
-export { Business, User };
+export { Authentication, Business, User };
