@@ -19,6 +19,8 @@
     "types": ["node", "jest"],
     "baseUrl": ".",
     "paths": {
+      "@src/*": ["src/*"],
+      "@models": ["src/models/index"],
       "@models/*": ["src/models/*"],
       "@graphql/*": ["src/graphql/*"],
       "@test/*": ["src/__test__/*"],
