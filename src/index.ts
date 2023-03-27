@@ -19,8 +19,8 @@ const startServer = async () => {
     const httpServer = createServer(app);
 
     let schema = makeExecutableSchema({
-      typeDefs: await loadFiles('src/graphql/**/schema.ts'),
-      resolvers: await loadFiles('src/graphql/**/resolvers.ts')
+      typeDefs: await loadFiles('src/graphql/types/**/*.schema.ts'),
+      resolvers: await loadFiles('src/graphql/types/**/*.resolvers.ts')
     });
 
     schema = getAuthorizedSchema(schema);
