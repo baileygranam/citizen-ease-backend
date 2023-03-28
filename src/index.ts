@@ -34,7 +34,7 @@ const startServer = async () => {
     const apolloServer = new ApolloServer({
       schema,
       validationRules: [depthLimit(10)],
-      introspection: config.INTROSPECTION_ENABLED,
+      introspection: config.NODE_ENV === 'development',
       formatError: (error) => {
         const { message, locations, path } = error;
 
