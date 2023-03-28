@@ -35,6 +35,15 @@ const startServer = async () => {
       schema,
       validationRules: [depthLimit(10)],
       introspection: config.INTROSPECTION_ENABLED,
+      formatError: (error) => {
+        const { message, locations, path } = error;
+
+        if (message.startsWith('\nInvalid `prisma')) {
+          return new Error('Internal Server Error');
+        }
+
+        return { message, locations, path };
+      },
       context: async ({ req }): Promise<ApolloContext> => {
         const accessToken = req.headers['x-access-token'] as string;
 

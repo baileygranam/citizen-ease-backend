@@ -8,6 +8,10 @@ const isAuthorized = async (
   typePermissions: string[],
   { userId, businessId }: { userId: string; businessId: string }
 ) => {
+  if (!userId || !businessId) {
+    return false;
+  }
+
   const user = await User.getUserById(businessId, userId, {
     include: { role: { include: { permissions: true } } }
   });
