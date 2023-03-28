@@ -6,6 +6,7 @@ import { ApolloServer } from 'apollo-server-express';
 import { loadFiles } from '@graphql-tools/load-files';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { Authentication } from '@models';
+import config from '@src/config';
 import { ApolloContext } from '@src/types';
 import { TokenType } from '@prisma/client';
 import {
@@ -33,6 +34,7 @@ const startServer = async () => {
     const apolloServer = new ApolloServer({
       schema,
       validationRules: [depthLimit(10)],
+      introspection: config.INTROSPECTION_ENABLED,
       context: async ({ req }): Promise<ApolloContext> => {
         const accessToken = req.headers['x-access-token'] as string;
 
