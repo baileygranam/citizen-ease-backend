@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import depthLimit from 'graphql-depth-limit';
 import { createServer } from 'http';
 import { ApolloServer } from 'apollo-server-express';
 import { loadFiles } from '@graphql-tools/load-files';
@@ -31,6 +32,7 @@ const startServer = async () => {
 
     const apolloServer = new ApolloServer({
       schema,
+      validationRules: [depthLimit(10)],
       context: async ({ req }): Promise<ApolloContext> => {
         const accessToken = req.headers['x-access-token'] as string;
 
