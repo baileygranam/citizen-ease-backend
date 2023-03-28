@@ -7,7 +7,6 @@ export const schema = gql`
     lastName: String
     email: String!
     phoneNumber: String!
-    business: Business!
     role: Role!
     isActive: Boolean!
   }

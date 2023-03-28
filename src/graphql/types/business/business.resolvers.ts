@@ -1,4 +1,4 @@
-import { User, Business, Role } from '@models';
+import { Client, User, Business, Role } from '@models';
 import {
   Resolvers,
   BusinessResolvers,
@@ -23,6 +23,9 @@ const updateBusiness: MutationResolvers['updateBusiness'] = async (
   { businessId }
 ) => Business.updateBusiness(businessId, data);
 
+const clients: BusinessResolvers['clients'] = async ({ id: businessId }) =>
+  Client.getClients(businessId);
+
 const users: BusinessResolvers['users'] = async ({ id: businessId }) =>
   User.getUsers(businessId);
 
@@ -38,6 +41,7 @@ export const resolvers: Resolvers = {
     updateBusiness
   },
   Business: {
+    clients,
     users,
     roles
   }

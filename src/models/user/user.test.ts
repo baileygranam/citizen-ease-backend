@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import bcrypt from 'bcrypt';
 import { prisma } from '@src/config';
-import { User } from '@models';
+import { Authentication, User } from '@models';
 
 import { setup, State } from '@test/setup';
 import * as Factory from '@test/factory';
@@ -247,6 +247,27 @@ describe('User Model', () => {
       const result = await prisma.user.findFirst({ where: { id: user.id } });
 
       expect(result?.deletedAt).not.toBe(null);
+    });
+
+    test('should revoke all user tokens', async () => {
+      const user = await Factory.createUser(state);
+
+      await Authentication.createTokens(user);
+
+      await User.deleteUser(user.businessId, user.id);
+
+      const result = await prisma.user.findFirst({
+        where: { id: user.id },
+        include: { tokens: true }
+      });
+
+      expect(result?.tokens).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            deletedAt: expect.any(Date)
+          })
+        ])
+      );
     });
 
     test('should throw an error if the user does not exist', async () => {

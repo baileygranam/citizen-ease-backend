@@ -11,6 +11,7 @@ const config: CodegenConfig = {
         contextType: 'src/types/index.ts#ApolloContext',
         mappers: {
           Business: '@prisma/client/index.d#Business as PrismaBusiness',
+          Client: '@prisma/client/index.d#Client as PrismaClient',
           User: '@prisma/client/index.d#User as PrismaUser',
           Role: '@prisma/client/index.d#Role as PrismaRole'
         },

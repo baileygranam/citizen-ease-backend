@@ -14,10 +14,78 @@ model Business {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  users User[]
-  roles Role[]
+  clients Client[]
+  users   User[]
+  roles   Role[]
 
   @@map("businesses")
+}
+
+enum TokenType {
+  ACCESS
+  REFRESH
+}
+
+model Client {
+  id                String         @id @default(uuid())
+  firstName         String
+  middleName        String?
+  lastName          String?
+  email             String?        @unique
+  phoneNumber       String?        @unique
+  dateOfBirth       DateTime?      @db.Date
+  gender            Gender?
+  preferredLanguage Language?
+  maritalStatus     MartialStatus?
+  addressLine1      String?
+  addressLine2      String?
+  addressCity       String?
+  addressState      String?
+  addressZipcode    String?
+  addressCountry    String?
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  deletedAt         DateTime?
+
+  business   Business @relation(fields: [businessId], references: [id])
+  businessId String
+
+  @@unique([id, businessId])
+  @@map("clients")
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum Language {
+  ENGLISH
+  SPANISH
+  CHINESE
+  TAGALOG
+  VIETNAMESE
+  JAPANESE
+  ARABIC
+  FRENCH
+  ITALIAN
+  POLISH
+  KOREAN
+  RUSSIAN
+  PORTUGUESE
+  HINDI
+}
+
+enum MartialStatus {
+  SINGLE
+  MARRIED
+  DIVORCED
+  SEPARATED
+  WIDOWED
+  DOMESTIC_PARTNERSHIP
+  CIVIL_UNION
+  ANNULLED
 }
 
 model Token {
@@ -31,11 +99,6 @@ model Token {
 
   user   User   @relation(fields: [userId], references: [id])
   userId String
-}
-
-enum TokenType {
-  ACCESS
-  REFRESH
 }
 
 model User {

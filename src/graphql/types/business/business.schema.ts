@@ -5,6 +5,7 @@ export const schema = gql`
     id: UUID!
     name: String!
 
+    clients: [Client!]!
     users: [User!]!
     roles: [Role!]!
   }
