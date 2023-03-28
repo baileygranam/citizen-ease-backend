@@ -6,7 +6,7 @@ export const schema = gql`
     name: String!
 
     clients: [Client!]!
-    users: [User!]!
+    users: [User!]! @authorization(permissions: ["read:user"])
     roles: [Role!]!
   }
 

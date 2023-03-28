@@ -12,14 +12,16 @@ export const schema = gql`
   }
 
   type Query {
-    getUser(id: UUID!): User!
-    getUsers: [User!]!
+    getUser(id: UUID!): User! @authorization(permissions: ["read:user"])
+    getUsers: [User!]! @authorization(permissions: ["read:user"])
   }
 
   type Mutation {
     createUser(data: CreateUserInput!): User!
+      @authorization(permissions: ["create:user"])
     updateUser(id: UUID!, data: UpdateUserInput!): User!
-    deleteUser(id: UUID!): User!
+      @authorization(permissions: ["update:user"])
+    deleteUser(id: UUID!): User! @authorization(permissions: ["delete:user"])
   }
 
   input CreateUserInput {

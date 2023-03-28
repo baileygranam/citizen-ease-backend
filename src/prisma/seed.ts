@@ -16,6 +16,11 @@ const permissionData = [
     name: 'Update Users',
     description: 'Allows a user to make changes to other users of the business',
     scope: 'update:user'
+  },
+  {
+    name: 'Delete Users',
+    description: 'Allows a user to delete a user from the business',
+    scope: 'delete:user'
   }
 ];
 
