@@ -30,6 +30,12 @@ const updateUser: MutationResolvers['updateUser'] = async (
   { businessId }
 ) => User.updateUser(businessId, id, data);
 
+const deleteUser: MutationResolvers['deleteUser'] = async (
+  _parent,
+  { id },
+  { businessId }
+) => User.deleteUser(businessId, id);
+
 const business: UserResolvers['business'] = async ({ businessId }) =>
   Business.getBusinessById(businessId);
 
@@ -46,7 +52,8 @@ export const resolvers: Resolvers = {
   },
   Mutation: {
     createUser,
-    updateUser
+    updateUser,
+    deleteUser
   },
   User: {
     business,

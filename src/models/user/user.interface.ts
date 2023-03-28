@@ -2,11 +2,13 @@ import { Prisma } from '@prisma/client';
 import Ajv from 'ajv';
 import bcrypt from 'bcrypt';
 import { prisma } from '@src/config';
+import { Authentication } from '@models';
 import {
   UserSchema,
   validateCreateUser,
   validateUpdateUser
 } from './user.schema';
+import dayjs from 'dayjs';
 
 const ajv = new Ajv();
 
@@ -19,10 +21,12 @@ export const getUserById = async <T extends UserOptions>(
   id: string,
   options?: T
 ) => {
-  const user = await prisma.user.findFirst({
+  const user = await prisma.user.findUnique({
     where: {
-      id,
-      businessId
+      id_businessId: {
+        id,
+        businessId
+      }
     },
     include: options?.include
   });
@@ -125,12 +129,13 @@ export const updateUser = async <T extends UserOptions>(
   }
 
   const userExists = await doesUserExist(businessId, { id });
+
   if (!userExists) {
     throw new Error('User not found');
   }
 
   const user = await prisma.user.update({
-    where: { id },
+    where: { id_businessId: { id, businessId } },
     data: {
       ...data,
       ...(data.password && { password: await bcrypt.hash(data.password, 12) }),
@@ -138,6 +143,35 @@ export const updateUser = async <T extends UserOptions>(
     },
     include: options?.include
   });
+
+  return user as Prisma.UserGetPayload<T>;
+};
+
+export const deleteUser = async <T extends UserOptions>(
+  businessId: string,
+  id: string,
+  options?: T
+) => {
+  const doesExist = await doesUserExist(businessId, { id });
+
+  if (!doesExist) {
+    throw new Error('User not found');
+  }
+
+  const user = await prisma.user.update({
+    where: {
+      id_businessId: {
+        id,
+        businessId
+      }
+    },
+    data: {
+      deletedAt: dayjs().utc().format()
+    },
+    include: options?.include
+  });
+
+  await Authentication.revokeTokens(user.id);
 
   return user as Prisma.UserGetPayload<T>;
 };

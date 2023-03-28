@@ -17,6 +17,12 @@ const createBusiness: MutationResolvers['createBusiness'] = async (
   { data }
 ) => Business.createBusiness(data);
 
+const updateBusiness: MutationResolvers['updateBusiness'] = async (
+  _parent,
+  { data },
+  { businessId }
+) => Business.updateBusiness(businessId, data);
+
 const users: BusinessResolvers['users'] = async ({ id: businessId }) =>
   User.getUsers(businessId);
 
@@ -28,7 +34,8 @@ export const resolvers: Resolvers = {
     getBusiness
   },
   Mutation: {
-    createBusiness
+    createBusiness,
+    updateBusiness
   },
   Business: {
     users,

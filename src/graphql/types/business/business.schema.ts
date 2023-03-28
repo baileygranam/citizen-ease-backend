@@ -15,9 +15,14 @@ export const schema = gql`
 
   type Mutation {
     createBusiness(data: CreateBusinessInput!): Business!
+    updateBusiness(data: UpdateBusinessInput!): Business!
   }
 
   input CreateBusinessInput {
     name: String!
+  }
+
+  input UpdateBusinessInput {
+    name: String
   }
 `;

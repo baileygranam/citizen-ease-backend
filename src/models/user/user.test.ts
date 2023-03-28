@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 import bcrypt from 'bcrypt';
-import * as User from './';
+import { prisma } from '@src/config';
+import { User } from '@models';
 
 import { setup, State } from '@test/setup';
 import * as Factory from '@test/factory';
@@ -234,6 +235,24 @@ describe('User Model', () => {
       await expect(result).rejects.toThrowError(
         'Error updating user, data/lastName must NOT have fewer than 1 characters'
       );
+    });
+  });
+
+  describe('deleteUser', () => {
+    test('should delete the user with the given id', async () => {
+      const user = await Factory.createUser(state);
+
+      await User.deleteUser(user.businessId, user.id);
+
+      const result = await prisma.user.findFirst({ where: { id: user.id } });
+
+      expect(result?.deletedAt).not.toBe(null);
+    });
+
+    test('should throw an error if the user does not exist', async () => {
+      const result = User.deleteUser(state.business.id, faker.datatype.uuid());
+
+      await expect(result).rejects.toThrowError('User not found');
     });
   });
 });

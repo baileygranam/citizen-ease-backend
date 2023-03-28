@@ -57,6 +57,7 @@ model User {
 
   tokens Token[]
 
+  @@unique([id, businessId])
   @@map("users")
 }
 
