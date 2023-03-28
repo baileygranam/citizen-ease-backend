@@ -11,7 +11,8 @@ const config: CodegenConfig = {
         contextType: 'src/types/index.ts#ApolloContext',
         mappers: {
           Business: '@prisma/client/index.d#Business as PrismaBusiness',
-          User: '@prisma/client/index.d#User as PrismaUser'
+          User: '@prisma/client/index.d#User as PrismaUser',
+          Role: '@prisma/client/index.d#Role as PrismaRole'
         },
         inputMaybeValue: 'undefined | T',
         useIndexSignature: true

@@ -9,7 +9,7 @@ import utcPlugin from 'dayjs/plugin/utc';
 
 dayjs.extend(utcPlugin);
 
-describe('Busines Model', () => {
+describe('Authentication Model', () => {
   let state: State;
 
   beforeAll(async () => {

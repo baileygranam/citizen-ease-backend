@@ -1,4 +1,4 @@
-import { User, Business } from '@models';
+import { User, Business, Role } from '@models';
 import {
   Resolvers,
   BusinessResolvers,
@@ -6,15 +6,22 @@ import {
   MutationResolvers
 } from '@graphql/__generated__/graphql';
 
-const getBusiness: QueryResolvers['getBusiness'] = async (_parent, { id }) =>
-  Business.getBusinessById(id);
+const getBusiness: QueryResolvers['getBusiness'] = async (
+  _parent,
+  _args,
+  { businessId }
+) => Business.getBusinessById(businessId);
 
 const createBusiness: MutationResolvers['createBusiness'] = async (
   _parent,
   { data }
 ) => Business.createBusiness(data);
 
-const users: BusinessResolvers['users'] = async ({ id }) => User.getUsers(id);
+const users: BusinessResolvers['users'] = async ({ id: businessId }) =>
+  User.getUsers(businessId);
+
+const roles: BusinessResolvers['roles'] = async ({ id: businessId }) =>
+  Role.getRoles(businessId);
 
 export const resolvers: Resolvers = {
   Query: {
@@ -24,6 +31,7 @@ export const resolvers: Resolvers = {
     createBusiness
   },
   Business: {
-    users
+    users,
+    roles
   }
 };

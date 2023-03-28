@@ -1,12 +1,12 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import Ajv from 'ajv';
+import { prisma } from '@src/config';
 import {
   BusinessSchema,
   validateCreateBusiness,
   validateUpdateBusiness
 } from './business.schema';
 
-const prisma = new PrismaClient();
 const ajv = new Ajv();
 
 type BusinessOptions = {

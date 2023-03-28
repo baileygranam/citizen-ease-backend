@@ -1,12 +1,10 @@
-import { PrismaClient, TokenType, User } from '@prisma/client';
+import { TokenType, User } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 import dayjs from 'dayjs';
 import utcPlugin from 'dayjs/plugin/utc';
-import config from '@src/config';
+import config, { prisma } from '@src/config';
 
 dayjs.extend(utcPlugin);
-
-const prisma = new PrismaClient();
 
 interface AuthenticationJwtPayload extends jwt.JwtPayload {
   businessId: string;

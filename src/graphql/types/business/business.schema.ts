@@ -6,14 +6,15 @@ export const schema = gql`
     name: String!
 
     users: [User!]!
+    roles: [Role!]!
   }
 
   type Query {
-    getBusiness(id: UUID!): Business
+    getBusiness: Business!
   }
 
   type Mutation {
-    createBusiness(data: CreateBusinessInput!): Business
+    createBusiness(data: CreateBusinessInput!): Business!
   }
 
   input CreateBusinessInput {

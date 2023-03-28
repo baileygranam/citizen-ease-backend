@@ -1,13 +1,13 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import Ajv from 'ajv';
 import bcrypt from 'bcrypt';
+import { prisma } from '@src/config';
 import {
   UserSchema,
   validateCreateUser,
   validateUpdateUser
 } from './user.schema';
 
-const prisma = new PrismaClient();
 const ajv = new Ajv();
 
 type UserOptions = {

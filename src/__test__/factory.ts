@@ -19,10 +19,33 @@ export const createBusiness = async (
   });
 };
 
+export const generateRoleData = (
+  data?: Partial<Prisma.RoleUncheckedCreateInput>
+) => {
+  return {
+    name: faker.name.jobTitle(),
+    ...data
+  };
+};
+
+export const createRole = async (
+  state: State,
+  data?: Partial<Prisma.RoleUncheckedCreateInput>
+) => {
+  return prisma.role.create({
+    data: {
+      businessId: state.business.id,
+      ...generateRoleData(data)
+    }
+  });
+};
+
 export const generateUserData = (
+  state: State,
   data?: Partial<Prisma.UserUncheckedCreateInput>
 ) => {
   return {
+    roleId: state.role.id,
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
     email: faker.internet.email(),
@@ -39,7 +62,7 @@ export const createUser = async (
   return prisma.user.create({
     data: {
       businessId: state.business.id,
-      ...generateUserData(data)
+      ...generateUserData(state, data)
     }
   });
 };

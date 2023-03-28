@@ -67,7 +67,7 @@ describe('User Model', () => {
 
   describe('createUser', () => {
     test('should create a new user with valid data', async () => {
-      const data = Factory.generateUserData();
+      const data = Factory.generateUserData(state);
 
       const result = await User.createUser(state.business.id, data);
 
@@ -87,7 +87,7 @@ describe('User Model', () => {
     });
 
     test('should throw an error if a user already exists with the given email', async () => {
-      const data = Factory.generateUserData({ email: state.user.email });
+      const data = Factory.generateUserData(state, { email: state.user.email });
       const result = User.createUser(state.business.id, data);
 
       await expect(result).rejects.toThrowError(
@@ -96,7 +96,7 @@ describe('User Model', () => {
     });
 
     test('should throw an error if email is invalid', async () => {
-      const data = Factory.generateUserData({ email: 'fake-email' });
+      const data = Factory.generateUserData(state, { email: 'fake-email' });
       const result = User.createUser(state.business.id, data);
 
       await expect(result).rejects.toThrowError(
@@ -105,7 +105,7 @@ describe('User Model', () => {
     });
 
     test('should throw an error if password is too short', async () => {
-      const data = Factory.generateUserData({ password: '1234' });
+      const data = Factory.generateUserData(state, { password: '1234' });
       const result = User.createUser(state.business.id, data);
 
       await expect(result).rejects.toThrowError(
@@ -114,7 +114,7 @@ describe('User Model', () => {
     });
 
     test('should throw an error if firstName is empty', async () => {
-      const data = Factory.generateUserData({ firstName: '' });
+      const data = Factory.generateUserData(state, { firstName: '' });
       const result = User.createUser(state.business.id, data);
 
       await expect(result).rejects.toThrowError(
@@ -123,7 +123,7 @@ describe('User Model', () => {
     });
 
     test('should throw an error if lastName is empty', async () => {
-      const data = Factory.generateUserData({ lastName: '' });
+      const data = Factory.generateUserData(state, { lastName: '' });
       const result = User.createUser(state.business.id, data);
 
       await expect(result).rejects.toThrowError(
@@ -155,7 +155,7 @@ describe('User Model', () => {
 
   describe('updateUser', () => {
     test('should update a user with valid data', async () => {
-      const data = Factory.generateUserData();
+      const data = Factory.generateUserData(state);
 
       const result = await User.updateUser(
         state.business.id,
@@ -190,7 +190,7 @@ describe('User Model', () => {
     });
 
     test('should throw an error if user does not exist', async () => {
-      const data = Factory.generateUserData();
+      const data = Factory.generateUserData(state);
       const result = User.updateUser(
         state.business.id,
         faker.datatype.uuid(),

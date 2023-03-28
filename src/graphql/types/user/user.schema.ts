@@ -9,16 +9,18 @@ export const schema = gql`
     phoneNumber: String!
     business: Business!
     isActive: Boolean!
+
+    role: Role!
   }
 
   type Query {
-    getUser(id: UUID!): User
+    getUser(id: UUID!): User!
     getUsers: [User!]!
   }
 
   type Mutation {
-    createUser(data: CreateUserInput!): User
-    updateUser(id: UUID!, data: UpdateUserInput!): User
+    createUser(data: CreateUserInput!): User!
+    updateUser(id: UUID!, data: UpdateUserInput!): User!
   }
 
   input CreateUserInput {
@@ -27,6 +29,7 @@ export const schema = gql`
     email: String!
     phoneNumber: String!
     password: String!
+    roleId: String!
   }
 
   input UpdateUserInput {
@@ -35,5 +38,6 @@ export const schema = gql`
     email: String
     phoneNumber: String
     password: String
+    roleId: String
   }
 `;

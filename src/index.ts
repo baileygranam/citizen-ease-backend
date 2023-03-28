@@ -5,9 +5,12 @@ import { ApolloServer } from 'apollo-server-express';
 import { loadFiles } from '@graphql-tools/load-files';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { Authentication } from '@models';
-import { ApolloContext } from './types';
+import { ApolloContext } from '@src/types';
 import { TokenType } from '@prisma/client';
-import { getAuthorizedSchema } from './graphql/directives/public.directive';
+import {
+  getAuthenticatedSchema,
+  getAuthorizedSchema
+} from '@src/graphql/directives';
 
 dotenv.config();
 
@@ -23,6 +26,7 @@ const startServer = async () => {
       resolvers: await loadFiles('src/graphql/types/**/*.resolvers.ts')
     });
 
+    schema = getAuthenticatedSchema(schema);
     schema = getAuthorizedSchema(schema);
 
     const apolloServer = new ApolloServer({

@@ -17,7 +17,8 @@ const userSchema: JSONSchemaType<UserSchema> = {
     lastName: { type: 'string', minLength: 1 },
     email: { type: 'string', format: 'email' },
     phoneNumber: { type: 'string', minLength: 1 },
-    password: { type: 'string', minLength: 6 }
+    password: { type: 'string', minLength: 6 },
+    roleId: { type: 'string', format: 'uuid' }
   },
   required: [],
   additionalProperties: false
@@ -25,7 +26,14 @@ const userSchema: JSONSchemaType<UserSchema> = {
 
 const createUserSchema = {
   ...userSchema,
-  required: ['firstName', 'lastName', 'email', 'phoneNumber', 'password']
+  required: [
+    'firstName',
+    'lastName',
+    'email',
+    'phoneNumber',
+    'password',
+    'roleId'
+  ]
 };
 
 const updateUserSchema = userSchema;

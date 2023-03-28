@@ -1,7 +1,7 @@
 import { mapSchema, getDirective, MapperKind } from '@graphql-tools/utils';
 import { GraphQLSchema, defaultFieldResolver } from 'graphql';
 
-export const getAuthorizedSchema = (schema: GraphQLSchema) => {
+export const getAuthenticatedSchema = (schema: GraphQLSchema) => {
   const authorizedSchema = mapSchema(schema, {
     [MapperKind.OBJECT_TYPE]: (type) => {
       const typePublicDirective = getDirective(schema, type, 'public')?.[0];

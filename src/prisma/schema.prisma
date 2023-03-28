@@ -15,6 +15,7 @@ model Business {
   deletedAt DateTime?
 
   users User[]
+  roles Role[]
 
   @@map("businesses")
 }
@@ -51,7 +52,41 @@ model User {
   business   Business @relation(fields: [businessId], references: [id])
   businessId String
 
+  role   Role   @relation(fields: [roleId], references: [id])
+  roleId String
+
   tokens Token[]
 
   @@map("users")
+}
+
+model Role {
+  id        String    @id @default(uuid())
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  business   Business @relation(fields: [businessId], references: [id])
+  businessId String
+
+  permissions Permission[]
+  users       User[]
+
+  @@unique([id, businessId])
+  @@map("roles")
+}
+
+model Permission {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  description String
+  scope       String    @unique
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  roles Role[]
+
+  @@map("permissions")
 }

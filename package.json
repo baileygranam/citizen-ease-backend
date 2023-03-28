@@ -4,12 +4,16 @@
   "license": "MIT",
   "scripts": {
     "start": "node build/index.js",
-    "dev": "nodemon --exec ts-node-dev -r tsconfig-paths/register src/index.ts",
+    "dev": "nodemon -r tsconfig-paths/register src/index.ts --exec ts-node",
     "build": "rimraf build && tsc",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "test": "jest",
     "codegen": "graphql-codegen --config codegen.ts"
+  },
+  "prisma": {
+    "schema": "src/prisma/schema.prisma",
+    "seed": "ts-node src/prisma/seed.ts"
   },
   "dependencies": {
     "@graphql-tools/load-files": "^6.6.1",

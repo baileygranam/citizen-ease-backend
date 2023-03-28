@@ -1,4 +1,4 @@
-import { User, Business } from '@models';
+import { User, Business, Role } from '@models';
 import {
   MutationResolvers,
   QueryResolvers,
@@ -33,6 +33,9 @@ const updateUser: MutationResolvers['updateUser'] = async (
 const business: UserResolvers['business'] = async ({ businessId }) =>
   Business.getBusinessById(businessId);
 
+const role: UserResolvers['role'] = async ({ businessId, roleId }) =>
+  Role.getRoleById(businessId, roleId);
+
 const isActive: UserResolvers['isActive'] = async ({ deletedAt }) =>
   deletedAt === null;
 
@@ -47,6 +50,7 @@ export const resolvers: Resolvers = {
   },
   User: {
     business,
+    role,
     isActive
   }
 };
