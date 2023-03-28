@@ -1,7 +1,8 @@
-import { Authentication } from '@models';
+import { Authentication, User } from '@models';
 import { prisma } from '@src/config';
 import bcrypt from 'bcrypt';
 import { Resolvers, MutationResolvers } from '@graphql/__generated__/graphql';
+import { TokenType } from '@prisma/client';
 
 const authenticate: MutationResolvers['authenticate'] = async (
   _parent,
@@ -28,6 +29,29 @@ const authenticate: MutationResolvers['authenticate'] = async (
   return tokens;
 };
 
+const refreshToken: MutationResolvers['refreshToken'] = async (
+  _parent,
+  { refreshToken }
+) => {
+  const isTokenValid = await Authentication.isTokenValid(
+    refreshToken,
+    TokenType.REFRESH
+  );
+
+  if (isTokenValid) {
+    const { businessId, userId } = Authentication.getTokenPayload(
+      refreshToken,
+      TokenType.REFRESH
+    );
+
+    const user = await User.getUserById(businessId, userId);
+
+    return Authentication.createToken(user, TokenType.ACCESS);
+  }
+
+  throw new Error('Invalid token');
+};
+
 const logout: MutationResolvers['logout'] = async (
   _parent,
   _args,
@@ -41,6 +65,7 @@ export const resolvers: Resolvers = {
   Query: {},
   Mutation: {
     authenticate,
+    refreshToken,
     logout
   }
 };

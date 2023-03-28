@@ -9,7 +9,7 @@ export const schema = gql`
   type Mutation {
     authenticate(email: String!, password: String!): AuthenticationTokens!
       @public
-    refreshToken(refreshToken: JWT!): String!
+    refreshToken(refreshToken: JWT!): String! @public
     logout: Boolean!
   }
 `;

@@ -50,7 +50,10 @@ export const createToken = async (user: User, type: TokenType) => {
       data: {
         type,
         token,
-        expiresAt: dayjs().utc().add(expiration, 'minutes').format(),
+        expiresAt: dayjs()
+          .utc()
+          .add(expiration, TokenType.ACCESS ? 'minutes' : 'days')
+          .format(),
         userId
       }
     });
