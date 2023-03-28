@@ -43,7 +43,7 @@ export const createToken = async (user: User, type: TokenType) => {
     const { id: userId, businessId } = user;
 
     const token = jwt.sign({ userId, businessId }, secret, {
-      expiresIn: `${expiration}m`
+      expiresIn: `${expiration}${type === TokenType.ACCESS ? 'm' : 'd'}`
     });
 
     await prisma.token.create({
