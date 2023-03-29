@@ -8,7 +8,7 @@
     "build": "rimraf build && tsc",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
-    "test": "jest",
+    "test": "jest --runInBand",
     "codegen": "graphql-codegen --config codegen.ts"
   },
   "prisma": {

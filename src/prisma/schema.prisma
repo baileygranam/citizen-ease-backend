@@ -14,6 +14,7 @@ model Business {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
+  cases   Case[]
   clients Client[]
   users   User[]
   roles   Role[]
@@ -24,6 +25,32 @@ model Business {
 enum TokenType {
   ACCESS
   REFRESH
+}
+
+model Case {
+  id                String         @id @default(uuid())
+  status            CaseStatus
+  dueAt             DateTime?
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  deletedAt         DateTime?
+
+  business   Business @relation(fields: [businessId], references: [id])
+  businessId String
+
+  client   Client @relation(fields: [clientId], references: [id])
+  clientId String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  @@unique([id, businessId])
+  @@map("cases")
+}
+
+enum CaseStatus {
+  OPEN
+  CLOSED
 }
 
 model Client {
@@ -49,6 +76,8 @@ model Client {
 
   business   Business @relation(fields: [businessId], references: [id])
   businessId String
+
+  cases Case[]
 
   @@unique([id, businessId])
   @@map("clients")
@@ -119,6 +148,7 @@ model User {
   roleId String
 
   tokens Token[]
+  cases  Case[]
 
   @@unique([id, businessId])
   @@map("users")

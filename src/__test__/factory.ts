@@ -1,4 +1,10 @@
-import { Gender, Language, MartialStatus, Prisma } from '@prisma/client';
+import {
+  Gender,
+  Language,
+  MartialStatus,
+  CaseStatus,
+  Prisma
+} from '@prisma/client';
 import { prisma, State } from './setup';
 import { faker } from '@faker-js/faker';
 
@@ -97,6 +103,30 @@ export const createClient = async (
     data: {
       businessId: state.business.id,
       ...generateClientData(data)
+    }
+  });
+};
+
+export const generateCaseData = (
+  state: State,
+  data?: Partial<Prisma.CaseUncheckedCreateInput>
+) => {
+  return {
+    userId: state.user.id,
+    clientId: state.client.id,
+    status: faker.helpers.arrayElement<CaseStatus>(Object.values(CaseStatus)),
+    ...data
+  };
+};
+
+export const createCase = async (
+  state: State,
+  data?: Partial<Prisma.CaseUncheckedCreateInput>
+) => {
+  return prisma.case.create({
+    data: {
+      businessId: state.business.id,
+      ...generateCaseData(state, data)
     }
   });
 };

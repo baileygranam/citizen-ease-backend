@@ -21,6 +21,8 @@ export const schema = gql`
     isTerminated: Boolean!
     createdAt: DateTime!
     updatedAt: DateTime!
+
+    cases: [Case!]!
   }
 
   enum Gender {

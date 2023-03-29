@@ -5,6 +5,7 @@ export const schema = gql`
     id: UUID!
     name: String!
 
+    cases: [Case!]!
     clients: [Client!]!
     users: [User!]! @authorization(permissions: ["read:user"])
     roles: [Role!]!

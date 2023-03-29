@@ -1,4 +1,4 @@
-import { Client } from '@models';
+import { Case, Client } from '@models';
 import {
   ClientResolvers,
   MutationResolvers,
@@ -39,6 +39,12 @@ const terminateClient: MutationResolvers['terminateClient'] = async (
 const isTerminated: ClientResolvers['isTerminated'] = async ({ deletedAt }) =>
   deletedAt !== null;
 
+const cases: ClientResolvers['cases'] = async (
+  { id: clientId },
+  _args,
+  { businessId }
+) => Case.getCases(businessId, { filter: { clientId } });
+
 export const resolvers: Resolvers = {
   Query: {
     getClient,
@@ -50,6 +56,7 @@ export const resolvers: Resolvers = {
     terminateClient
   },
   Client: {
+    cases,
     isTerminated
   }
 };

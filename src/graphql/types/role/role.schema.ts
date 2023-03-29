@@ -27,11 +27,11 @@ export const schema = gql`
 
   input CreateRoleInput {
     name: String!
-    permissionIds: [String!]!
+    permissionIds: [UUID!]!
   }
 
   input UpdateRoleInput {
     name: String
-    permissionIds: [String!]
+    permissionIds: [UUID!]
   }
 `;

@@ -9,6 +9,8 @@ export const schema = gql`
     phoneNumber: String!
     role: Role!
     isActive: Boolean!
+
+    cases: [Case!]!
   }
 
   type Query {
@@ -30,7 +32,7 @@ export const schema = gql`
     email: String!
     phoneNumber: String!
     password: String!
-    roleId: String!
+    roleId: UUID!
   }
 
   input UpdateUserInput {
@@ -39,6 +41,6 @@ export const schema = gql`
     email: String
     phoneNumber: String
     password: String
-    roleId: String
+    roleId: UUID
   }
 `;
